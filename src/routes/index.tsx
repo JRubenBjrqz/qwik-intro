@@ -1,5 +1,6 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
+import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
 
 export default component$(() => {
 
@@ -19,10 +20,8 @@ export default component$(() => {
         <span class="text-3xl font-bold mb-2">Generation 1 </span>
         <span class="text-1xl">{ pokemonId }</span>
 
-        <img 
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ pokemonId.value }.png`} 
-          alt="Pokemon Sprite"
-          style={{ width: '150px' }}/>
+        <PokemonImage 
+          id={ pokemonId.value }/> 
 
         <div>
           <button onClick$={ () => changePokemonId(-1) } class="btn btn-primary mr-2">Previous</button>
@@ -37,11 +36,11 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
+  content: 'Learning Qwik',
   title: 'PokeQwik',
   meta: [
     {
       name: 'description',
-      content: 'Learning Qwik',
     },
   ],
 };
