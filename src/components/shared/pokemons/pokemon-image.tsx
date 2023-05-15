@@ -6,12 +6,23 @@ interface Props {
     backImage: boolean;
 }
 
-export const PokemonImage = component$(( { id, size = 150, backImage= false }: Props  ) => {
+export const PokemonImage = component$(( { id, size = 150, backImage = false }: Props  ) => {
+
+    let pokemonImage: string;
+
+    const isPokemonFront = () => {
+        if(backImage){
+            return pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+        } else {
+            return pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
+        }
+    }
     
     return (
+
         <img 
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id  }.png`} 
-          alt="Pokemon Sprite"
-          style={{ width: `${ size }px` }}/>
+            src={ isPokemonFront() } 
+            alt="Pokemon Sprite"
+            style={{ width: `${ size }px` }}/>
     )
- })
+ });
