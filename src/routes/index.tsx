@@ -5,7 +5,7 @@ import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
 export default component$(() => {
 
   const pokemonId = useSignal(1); // Primitive, booleans, strings
-  const showBackImage = useSignal(true);
+  const showBackImage = useSignal(false);
 
   const changePokemonId = $(( value: number ) => {
     if( ( pokemonId.value + value ) <= 0 ) return;
