@@ -4,9 +4,15 @@ interface Props {
     id: number;
     size?: number;
     backImage: boolean;
+    isVisible?: boolean;
 }
 
-export const PokemonImage = component$(( { id, size = 150, backImage = false }: Props  ) => {
+export const PokemonImage = component$(({ 
+    id, 
+    size = 150, 
+    backImage = false, 
+    isVisible = false 
+}: Props  ) => {
 
     // let pokemonImage: string;
 
@@ -26,10 +32,10 @@ export const PokemonImage = component$(( { id, size = 150, backImage = false }: 
         imageLoaded.value = false;
     }); 
 
-    let pokemonImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+    let ImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
 
     if( backImage ) {
-        pokemonImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
+        ImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
     }
     
     return (
@@ -37,13 +43,14 @@ export const PokemonImage = component$(( { id, size = 150, backImage = false }: 
             { !imageLoaded.value && (<small class="text-gray-400 opacity-50">Loading...</small>) }
                 <img
                     // src={ isPokemonFront() } 
-                    src={ pokemonImageUrl }
+                    src={ ImageUrl }
                     alt="Pokemon Sprite"
                     style={{ width: `${ size }px` }}
                     onLoad$={ () => { imageLoaded.value = true }  }
-                    class={{
-                        'hidden': !imageLoaded.value
-                    }}
+                    class={[{
+                        'hidden': !imageLoaded.value,
+                        'brightness-0': !isVisible,
+                    }, 'transition-all'] }
                 /> 
             
         </div>
