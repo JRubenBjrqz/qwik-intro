@@ -4,13 +4,15 @@ interface Props {
     id: number;
     size?: number;
     backImage: boolean;
+    isShiny?: boolean;
     isVisible?: boolean;
 }
 
 export const PokemonImage = component$(({ 
     id, 
     size = 150, 
-    backImage = false, 
+    backImage = false,
+    isShiny = false, 
     isVisible = false 
 }: Props  ) => {
 
@@ -32,18 +34,30 @@ export const PokemonImage = component$(({
         imageLoaded.value = false;
     }); 
 
-    let ImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
-
-    if( backImage ) {
-        ImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
-    }
+    let imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+    let shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
     
+    if( isShiny ){
+        shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${ id }.png`;
+    }
+
+    if( backImage ){
+        imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
+        shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${ id }.png`
+    }
+
+
+
     return (
         <div style={{ width:`${ size }px`, height: `${ size }px` }} class="flex items-center justify-center">
             { !imageLoaded.value && (<small class="text-gray-400 opacity-50">Loading...</small>) }
                 <img
                     // src={ isPokemonFront() } 
-                    src={ ImageUrl }
+                    src={ 
+                        (!isShiny) 
+                        ? imageURL
+                        : shinyImageURL 
+                    }
                     alt="Pokemon Sprite"
                     style={{ width: `${ size }px` }}
                     onLoad$={ () => { imageLoaded.value = true }  }

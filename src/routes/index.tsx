@@ -6,6 +6,7 @@ export default component$(() => {
 
   const pokemonId = useSignal(1); // Primitive, booleans, strings
   const isBackImage = useSignal(false);
+  const isPokemonShiny = useSignal(false);
   const isPokemonVisible = useSignal(false);
 
   const changePokemonId = $(( value: number ) => {
@@ -22,10 +23,13 @@ export default component$(() => {
 
         <PokemonImage 
           id={ pokemonId.value }
-          backImage={isBackImage.value}
-          isVisible={isPokemonVisible.value}/> 
+          backImage={ isBackImage.value }
+          isVisible={ isPokemonVisible.value }
+          isShiny={ isPokemonShiny.value }/> 
 
         <div>
+          <button onClick$={ () => changePokemonId( -1 ) } class="btn btn-primary mr-2">Previous</button>
+          <button onClick$={  () => changePokemonId( +1 ) } class="btn btn-primary mr-2">Next</button>
           <button onClick$={ () => isPokemonVisible.value = !isPokemonVisible.value } class="btn btn-primary mr-2">
             {
               (!isPokemonVisible.value) 
@@ -33,9 +37,14 @@ export default component$(() => {
               : 'Hide'
             }
           </button>
-          <button onClick$={ () => changePokemonId( -1 ) } class="btn btn-primary mr-2">Previous</button>
-          <button onClick$={  () => changePokemonId( +1 ) } class="btn btn-primary mr-2">Next</button>
-          <button onClick$={ () => isBackImage.value = !isBackImage.value } class="btn btn-primary">Flip</button>
+          <button onClick$={ () => isBackImage.value = !isBackImage.value } class="btn btn-primary mr-2">Flip</button>
+          <button onClick$={ () => isPokemonShiny.value = !isPokemonShiny.value } class="btn btn-primary">
+            {
+              (!isPokemonShiny.value)
+              ? 'Shiny'
+              : 'Normal'
+            }
+          </button>
         </div>
       </header>
         
