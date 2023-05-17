@@ -1,5 +1,6 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import { DocumentHead} from '@builder.io/qwik-city';
+import { useNavigate } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
 
 export default component$(() => {
@@ -7,25 +8,32 @@ export default component$(() => {
   const pokemonId = useSignal(1); // Primitive, booleans, strings
   const isBackImage = useSignal(false);
   const isPokemonShiny = useSignal(false);
-  const isPokemonVisible = useSignal(false);
+  const isPokemonVisible = useSignal(true);
+  const nav = useNavigate();
 
   const changePokemonId = $(( value: number ) => {
     if( ( pokemonId.value + value ) <= 0 ) return;
     if( ( pokemonId.value + value ) >= 151 ) return;
 
     pokemonId.value += value;
-  })
+  });
+
+  const goToPokemon = $(() => {
+    nav(`/pokemon/${ pokemonId.value }/`);
+  });
 
   return (
     <>
       <header class="flex flex-col items-center justify-center">
         <span class="text-3xl font-bold mb-2">Generation 1</span>
 
-        <PokemonImage 
-          id={ pokemonId.value }
-          backImage={ isBackImage.value }
-          isVisible={ isPokemonVisible.value }
-          isShiny={ isPokemonShiny.value }/> 
+        <div onClick$={ () => goToPokemon }>
+          <PokemonImage 
+            id={ pokemonId.value }
+            backImage={ isBackImage.value }
+            isVisible={ isPokemonVisible.value }
+            isShiny={ isPokemonShiny.value }/> 
+        </div>
 
         <div>
           <button onClick$={ () => changePokemonId( -1 ) } class="btn btn-primary mr-2">Previous</button>

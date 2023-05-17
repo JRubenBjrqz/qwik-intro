@@ -46,8 +46,6 @@ export const PokemonImage = component$(({
         shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${ id }.png`
     }
 
-
-
     return (
         <div style={{ width:`${ size }px`, height: `${ size }px` }} class="flex items-center justify-center">
             { !imageLoaded.value && (<small class="text-gray-400 opacity-50">Loading...</small>) }
