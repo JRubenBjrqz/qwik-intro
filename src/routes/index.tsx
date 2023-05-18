@@ -12,8 +12,8 @@ export default component$(() => {
   const isPokemonVisible = useSignal(true);
 
   const changePokemonId = $(( value: number ) => {
-    if( ( pokemonId.value + value ) <= 252 ) return;
-    if( ( pokemonId.value + value ) >= 386 ) return;
+    if ( ( pokemonId.value + value ) <= 252 ) return;
+    if ( ( pokemonId.value + value ) >= 386 ) return;
 
     pokemonId.value += value;
   });
