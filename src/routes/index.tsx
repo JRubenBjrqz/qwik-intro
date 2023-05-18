@@ -5,11 +5,11 @@ import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
 
 export default component$(() => {
 
+  const nav = useNavigate();
   const pokemonId = useSignal(252); // Primitive, booleans, strings
   const isBackImage = useSignal(false);
   const isPokemonShiny = useSignal(false);
   const isPokemonVisible = useSignal(true);
-  const nav = useNavigate();
 
   const changePokemonId = $(( value: number ) => {
     if( ( pokemonId.value + value ) <= 252 ) return;
@@ -19,7 +19,7 @@ export default component$(() => {
   });
 
   const goToPokemon = $(() => {
-    nav(`/pokemon/${ pokemonId.value }/`);
+    nav(`pokemon/${ pokemonId.value }/`);
   });
 
   return (
@@ -27,7 +27,7 @@ export default component$(() => {
       <header class="flex flex-col items-center justify-center">
         <span class="text-3xl font-bold mb-2">Generation 3</span>
 
-        <div onClick$={ () => goToPokemon }>
+        <div onClick$={ () => goToPokemon() }>
           <PokemonImage 
             id={ pokemonId.value }
             backImage={ isBackImage.value }
