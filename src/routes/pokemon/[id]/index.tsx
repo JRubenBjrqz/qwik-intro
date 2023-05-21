@@ -6,8 +6,8 @@ export const usePokemonId = routeLoader$<number>(({ params, redirect }) => {
 
     const id = Number(params.id);
     if ( isNaN( id ) ) redirect( 301, '/' );
-    if ( id <= 252 ) redirect( 301, '/' );
-    if ( id > 386 ) redirect( 301, '/' );
+    if ( id <= 251 ) redirect( 301, '/' );
+    if ( id >= 386 ) redirect( 301, '/' );
 
     return id;
 });
