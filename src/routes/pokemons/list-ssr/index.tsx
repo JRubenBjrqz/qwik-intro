@@ -1,17 +1,21 @@
 import { component$, useComputed$ } from '@builder.io/qwik';
-import { DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
-import { BasicPokemonInfo, PokemonListResponse } from '~/interfaces';
+import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
+import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
+import { getSmallPokemons } from '~/helpers/get-small-pokemons';
+import { PokemonListResponse, SmallPokemon } from '~/interfaces';
 
-export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(async({ query, redirect, pathname }) => {
+export const usePokemonList = routeLoader$<SmallPokemon[]>(async({ query, redirect, pathname }) => {
 
-    const offset = Number( query.get( 'offset' ) || 0 );
+    const offset = Number( query.get( 'offset' ) || '0' );
     if ( isNaN( offset ) ) redirect( 301, pathname );
     if ( offset < 0 ) redirect( 301, pathname );
-    
-    const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=20&offset=${ offset }`);
-    const data = await resp.json() as PokemonListResponse;
 
-    return data.results;
+    return getSmallPokemons( offset );
+    
+    // const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${ offset }`);
+    // const data = await resp.json() as PokemonListResponse;
+
+    // return data.results;
 
 });
 
@@ -49,8 +53,11 @@ export default component$(() => {
                 </div>
 
                 <div class="grid grid-cols-5 mt-5">
-                    { pokemons.value.map( ({ name }) => ( 
+                    { pokemons.value.map( ({ name, id }) => ( 
                         <div key={ name } class="m-5 flex flex-col justify-center items-center">
+                            <PokemonImage 
+                                id= { id }
+                            />
                             <span class="capitalize">{ name }</span>
                         </div>
                      )) 
