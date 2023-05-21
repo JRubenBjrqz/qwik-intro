@@ -1,4 +1,4 @@
-import { component$, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useStore, useTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/shared/pokemons/pokemon-image';
 import { getSmallPokemons } from '~/helpers/get-small-pokemons';
@@ -17,7 +17,13 @@ export default component$(() => {
     });
 
     // Visible to the client
-    useVisibleTask$( async({ track }) => {
+    // useVisibleTask$( async({ track }) => {
+    //     track( () => pokemonState.currentPage )
+    //     const pokemons = await getSmallPokemons( pokemonState.currentPage * 10 );
+    //     pokemonState.pokemons = [ ...pokemonState.pokemons, ...pokemons];
+    // });
+
+    useTask$( async({ track }) => {
         track( () => pokemonState.currentPage )
         const pokemons = await getSmallPokemons( pokemonState.currentPage * 10 );
         pokemonState.pokemons = [ ...pokemonState.pokemons, ...pokemons];
@@ -34,10 +40,10 @@ export default component$(() => {
 
             <section class="flex flex-col items-center justify-center mt-10">
                 <div>    
-                    <button onClick$={ () => pokemonState.currentPage-- }
+                    {/* <button onClick$={ () => pokemonState.currentPage-- }
                         class="btn btn-primary mr-2">
                         Previous
-                    </button>
+                    </button> */}
                     <button onClick$={ () => pokemonState.currentPage++ }
                         class="btn btn-primary mr-2">
                         Next
