@@ -1,11 +1,10 @@
-import { component$, useSignal, useTask$ } from "@builder.io/qwik";
+import { component$, useComputed$, useSignal, useTask$ } from "@builder.io/qwik";
 
 interface Props {
     id: number | string;
     size?: number;
     backImage?: boolean;
     isVisible?: boolean;
-    isShiny?: boolean;
 }
 
 export const PokemonImage = component$(({ 
@@ -13,7 +12,6 @@ export const PokemonImage = component$(({
     size = 150, 
     backImage = false,
     isVisible = true, 
-    isShiny = false 
 }: Props  ) => {
 
     // let pokemonImage: string;
@@ -32,30 +30,32 @@ export const PokemonImage = component$(({
         track( () => id );
 
         imageLoaded.value = false;
-    }); 
+    });
 
-    let imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
-    let shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+    const imageURL = useComputed$(() => {
+        return ( backImage )
+        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`
+        : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+    })
+
+    // let imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
+    // let shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`;
     
-    if( isShiny ){
-        shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${ id }.png`;
-    }
+    // if( isShiny ){
+    //     shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${ id }.png`;
+    // }
 
-    if( backImage ){
-        imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
-        shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${ id }.png`
-    }
+    // if( backImage ){
+    //     imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${ id }.png`;
+    //     shinyImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${ id }.png`
+    // }
 
     return (
         <div style={{ width:`${ size }px`, height: `${ size }px` }} class="flex items-center justify-center">
             { !imageLoaded.value && (<small class="text-gray-400 opacity-50">Loading...</small>) }
                 <img
                     // src={ isPokemonFront() } 
-                    src={ 
-                        (!isShiny) 
-                        ? imageURL
-                        : shinyImageURL 
-                    }
+                    src={ imageURL.value }
                     alt="Pokemon Sprite"
                     style={{ width: `${ size }px` }}
                     onLoad$={ () => { imageLoaded.value = true }  }

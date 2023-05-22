@@ -28,11 +28,11 @@ export default component$(() => {
         <span class="text-3xl font-bold mb-2">Generation 3</span>
 
         <div onClick$={ () => goToPokemon() }>
-          <PokemonImage 
+          <PokemonImage
             id={ pokemonId.value }
             backImage={ isBackImage.value }
             isVisible={ isPokemonVisible.value }
-            isShiny={ isPokemonShiny.value }/> 
+          /> 
         </div>
 
         <div>
@@ -46,13 +46,6 @@ export default component$(() => {
             }
           </button>
           <button onClick$={ () => isBackImage.value = !isBackImage.value } class="btn btn-primary mr-2">Flip</button>
-          <button onClick$={ () => isPokemonShiny.value = !isPokemonShiny.value } class="btn btn-primary">
-            {
-              (!isPokemonShiny.value)
-              ? 'Shiny'
-              : 'Normal'
-            }
-          </button>
         </div>
       </header>
         
